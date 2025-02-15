@@ -2,24 +2,37 @@
 
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys) : State(window, supportedKeys) {
+	this->initFonts();
 	this->initKeybinds();
+	this->gameStateBtn = new Button(100, 100, 150, 50, &this->font, "New Game", sf::Color::Yellow, sf::Color::Red, sf::Color::Blue);
 	this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	this->background.setFillColor(sf::Color::Blue);
-
+	this->background.setFillColor(sf::Color::Black);
 }
 
 MainMenuState::~MainMenuState() {
+	delete this->gameStateBtn;
+}
 
+void MainMenuState::initFonts() {
+	if (!this->font.loadFromFile("Fonts/Daily Bubble.ttf")) {
+		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
+	}
 }
 
 void MainMenuState::update(const float& dt) {
+	this->updateMousePositions();
 	this->updateInput(dt);
+	std::cout << this->mousePosView.x << " " << this->mousePosView.y << "\n";
+	system("cls");
+
+	this->gameStateBtn->update(this->mousePosView);
 }
 
 void MainMenuState::render(sf::RenderTarget* target) {
 	if (!target)
 		target = this->window;
 	target->draw(this->background);
+	this->gameStateBtn->render(target);
 }
 
 void MainMenuState::endState() {
