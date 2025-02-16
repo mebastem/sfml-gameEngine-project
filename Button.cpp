@@ -62,6 +62,7 @@ void Button::update(const sf::Vector2f mousePos) {
 		break;
 	case BTN_ACTIVE:
 		this->shape.setFillColor(this->activeColor);
+		//std::cout << "Button is pressed!" << "\n";
 		break;
 	default:
 		this->shape.setFillColor(sf::Color::Red);
