@@ -19,6 +19,11 @@ void Entity::createSprite(sf::Texture* texture) {
 	this->sprite = new sf::Sprite(*this->texture);
 }
 
+void Entity::setPosition(const float x, const float y) {
+	if (this->sprite)
+		this->sprite->setPosition(x, y);
+}
+
 void Entity::update(const float& dt) {
 
 }
