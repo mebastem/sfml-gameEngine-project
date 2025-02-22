@@ -2,18 +2,28 @@
 
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states) : State(window, supportedKeys, states) {
+	this->initVariables();
+	this->initBackground();
 	this->initFonts();
 	this->initKeybinds();
 	this->initButtons();
-	
-	this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	this->background.setFillColor(sf::Color::Black);
 }
 
 MainMenuState::~MainMenuState() {
 	for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
 		delete it->second;
 	}
+}
+
+void MainMenuState::initBackground() {
+	this->background.setSize(sf::Vector2f(this->window->getSize().x, this->window->getSize().y));
+	if (!this->backgroundTexture.loadFromFile("assets/background.jpg")) {
+		throw "ERROR::MAINMENUSTATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
+	}
+	this->background.setTexture(&this->backgroundTexture);
+}
+
+void MainMenuState::initVariables() {
 }
 
 void MainMenuState::initFonts() {
@@ -23,8 +33,16 @@ void MainMenuState::initFonts() {
 }
 
 void MainMenuState::initButtons() {
-	this->buttons["NEW_GAME_BTN"] = new Button(100, 100, 150, 50, &this->font, "New Game", sf::Color::Yellow, sf::Color::Red, sf::Color::Blue);
-	this->buttons["EXIT_STATE_BTN"] = new Button(400, 100, 150, 50, &this->font, "Exit", sf::Color::Red, sf::Color::Green, sf::Color::Blue);
+	/*
+	I tried to render a random texture (Button_Play.png) as a button.
+	this->playButton.setSize(sf::Vector2f(300, 100));
+	this->playButton.setFillColor(sf::Color::White);
+	this->playButton.setPosition(sf::Vector2f(800, 700));
+	this->playButtonTexture.loadFromFile("assets/Button_Play.png");
+	this->playButton.setTexture(&this->playButtonTexture);
+	*/
+	this->buttons["NEW_GAME_BTN"] = new Button(800, 500, 150, 50, &this->font, "New Game", sf::Color::Yellow, sf::Color::Red, sf::Color::Blue);
+	this->buttons["EXIT_STATE_BTN"] = new Button(1000, 500, 150, 50, &this->font, "Exit", sf::Color::Red, sf::Color::Green, sf::Color::Blue);
 }
 
 void MainMenuState::updateButtons() {
@@ -58,6 +76,15 @@ void MainMenuState::render(sf::RenderTarget* target) {
 		target = this->window;
 	target->draw(this->background);
 	this->renderButtons(target);
+	sf::Text mouseText;
+	mouseText.setPosition(this->mousePosView.x, this->mousePosView.y - 50);
+	mouseText.setFont(this->font);
+	mouseText.setCharacterSize(12);
+	std::stringstream ss;
+	ss << this->mousePosView.x << " " << this->mousePosView.y;
+	mouseText.setString(ss.str());
+	target->draw(mouseText);
+	// target->draw(this->playButton);
 }
 
 void MainMenuState::endState() {
