@@ -53,7 +53,7 @@ void MainMenuState::updateButtons() {
 		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
 	}
 	if (this->buttons["EXIT_STATE_BTN"]->isPressed()) {
-		this->wantToQuit = true;
+		this->endState();
 	}
 }
 
@@ -87,12 +87,8 @@ void MainMenuState::render(sf::RenderTarget* target) {
 	// target->draw(this->playButton);
 }
 
-void MainMenuState::endState() {
-	std::cout << "Ending MainMenuState!" << "\n";
-}
-
 void MainMenuState::updateInput(const float& dt) {
-	this->checkForQuit();
+	//this->checkForQuit();
 }
 
 void MainMenuState::initKeybinds() {

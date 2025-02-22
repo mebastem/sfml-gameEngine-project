@@ -18,13 +18,17 @@
 
 class Entity {
 private:
+	void initVariables();
+
 protected:
-	sf::RectangleShape shape;
+	sf::Texture* texture;
+	sf::Sprite* sprite;
 	float movementSpeed;
 public:
 	Entity();
 	virtual ~Entity();
 
+	void createSprite(sf::Texture* texture);
 
 	virtual void move(const float& dt, const float dirX, const float dirY);
 	virtual void update(const float& dt);

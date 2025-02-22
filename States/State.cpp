@@ -11,11 +11,6 @@ State::~State() {
 
 }
 
-void State::checkForQuit() {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds["CLOSE"]))) {
-		this->wantToQuit = true;
-	}
-}
 
 const bool& State::getWantToQuit() const {
 	return this->wantToQuit;
@@ -25,4 +20,8 @@ void State::updateMousePositions() {
 	this->mousePosScreen = sf::Mouse::getPosition();
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
+}
+
+void State::endState() {
+	this->wantToQuit = true;
 }

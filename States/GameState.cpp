@@ -19,13 +19,8 @@ void GameState::render(sf::RenderTarget* target) {
 	this->player.render(target);
 }
 
-void GameState::endState() {
-	std::cout << "Ending GameState!" << "\n";
-
-}
-
 void GameState::updateInput(const float& dt) {
-	this->checkForQuit();
+	//this->checkForQuit();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
 		this->player.move(dt, -1.f, 0.f);
@@ -36,6 +31,8 @@ void GameState::updateInput(const float& dt) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
 		this->player.move(dt, 1.f, 0.f);
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
+		this->endState();
 }
 
 void GameState::initKeybinds() {
